@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>dinrector.github.io</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -12,68 +12,72 @@
             padding: 0;
         }
 
-        body {
+        html, body {
+            width: 100%;
+            height: 100vh;
+            height: calc(var(--vh, 1vh) * 100);
+            overflow: hidden;
             font-family: 'Inter', sans-serif;
             background-color: #05020a;
             color: #f1f5f9;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
         }
 
-        /* Фоновый 3D Canvas */
+        /* Полноэкранный 3D Canvas */
         #bg {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             z-index: 1;
+            pointer-events: none;
         }
 
-        /* Радиальное затемнение поверх сетки для глубины */
+        /* Радиальное затемнение для глубокого контраста */
         .overlay {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, rgba(5, 2, 10, 0.2) 0%, rgba(5, 2, 10, 0.85) 100%);
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at center, rgba(5, 2, 10, 0.1) 0%, rgba(5, 2, 10, 0.85) 100%);
             z-index: 2;
             pointer-events: none;
         }
 
-        /* Главная карточка */
-        .card {
+        /* Центрирование контента */
+        .wrapper {
             position: relative;
             z-index: 3;
-            background: rgba(15, 7, 26, 0.65);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+
+        /* Главная карточка */
+        .card {
+            background: rgba(15, 7, 26, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(168, 85, 247, 0.25);
             border-radius: 20px;
-            padding: 40px 32px;
-            max-width: 420px;
-            width: 90%;
+            padding: 32px 24px;
+            width: 100%;
+            max-width: 380px;
             text-align: center;
-            box-shadow: 0 0 50px rgba(138, 43, 226, 0.15),
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5),
                         inset 0 0 20px rgba(168, 85, 247, 0.05);
-            transition: border-color 0.3s ease;
         }
 
-        .card:hover {
-            border-color: rgba(168, 85, 247, 0.45);
-        }
-
-        /* Стильный логотип вместо смайлов */
+        /* Иконка */
         .icon-box {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto 24px;
-            border-radius: 16px;
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 20px;
+            border-radius: 14px;
             background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(126, 34, 206, 0.05));
             border: 1px solid rgba(168, 85, 247, 0.4);
             display: flex;
@@ -83,8 +87,8 @@
         }
 
         .icon-box svg {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             fill: none;
             stroke: #c084fc;
             stroke-width: 2;
@@ -93,27 +97,27 @@
         }
 
         h1 {
-            font-size: 26px;
+            font-size: 22px;
             font-weight: 700;
             letter-spacing: -0.5px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             color: #ffffff;
             text-shadow: 0 0 20px rgba(192, 132, 252, 0.3);
         }
 
         p {
             font-size: 14px;
-            line-height: 1.6;
+            line-height: 1.5;
             color: #94a3b8;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }
 
-        /* Неоновая кнопка */
+        /* Кнопка */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             width: 100%;
             padding: 14px 20px;
             background: linear-gradient(135deg, #7e22ce 0%, #a855f7 100%);
@@ -122,85 +126,90 @@
             font-size: 15px;
             text-decoration: none;
             border-radius: 12px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(126, 34, 206, 0.4);
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(168, 85, 247, 0.6);
-            background: linear-gradient(135deg, #9333ea 0%, #c084fc 100%);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 15px rgba(126, 34, 206, 0.4);
+            -webkit-tap-highlight-color: transparent;
         }
 
         .btn:active {
-            transform: translateY(0);
+            transform: scale(0.98);
         }
 
         .btn svg {
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             fill: currentColor;
         }
     </style>
 </head>
 <body>
 
-    <!-- Canvas для 3D фона -->
     <canvas id="bg"></canvas>
     <div class="overlay"></div>
 
-    <!-- Контент -->
-    <div class="card">
-        <div class="icon-box">
-            <!-- Векторный иконка-терминал -->
-            <svg viewBox="0 0 24 24">
-                <polyline points="4 17 10 11 4 5"></polyline>
-                <line x1="12" y1="19" x2="20" y2="19"></line>
-            </svg>
+    <div class="wrapper">
+        <div class="card">
+            <div class="icon-box">
+                <svg viewBox="0 0 24 24">
+                    <polyline points="4 17 10 11 4 5"></polyline>
+                    <line x1="12" y1="19" x2="20" y2="19"></line>
+                </svg>
+            </div>
+            <h1>Приветствую</h1>
+            <p>Добро пожаловать на мою страницу. Здесь находятся мои основные проекты, разработки и софт. Нажмите ниже, чтобы перейти в Telegram.</p>
+            <a href="https://t.me/androidfreebomber" class="btn" target="_blank" rel="noopener">
+                Перейти в Telegram
+                <svg viewBox="0 0 24 24">
+                    <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
         </div>
-        <h1>Приветствую</h1>
-        <p>Добро пожаловать на мою страницу. Здесь находятся мои основные проекты, разработки и софт. Нажмите ниже, чтобы перейти в Telegram.</p>
-        <a href="https://t.me/androidfreebomber" class="btn" target="_blank">
-            Перейти в Telegram
-            <svg viewBox="0 0 24 24">
-                <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </a>
     </div>
 
-    <!-- Подключаем Three.js для 3D графики -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // Создание 3D сцены
+        // Фикс высоты для мобильных браузеров (address bar bug)
+        function setViewportHeight() {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        window.addEventListener('resize', setViewportHeight);
+        setViewportHeight();
+
+        // Инициализация Three.js
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg'), antialias: true });
+        const renderer = new THREE.WebGLRenderer({ 
+            canvas: document.getElementById('bg'), 
+            antialias: true,
+            powerPreference: "high-performance"
+        });
 
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        // Создаем сетку плоскости
+        // Автоматическое определение мобилки для оптимизации сетки
+        const isMobile = window.innerWidth < 768;
         const width = 80;
         const height = 80;
-        const segments = 45;
+        const segments = isMobile ? 25 : 45; // Меньше полигонов на телефонах для плавности
+
         const geometry = new THREE.PlaneGeometry(width, height, segments, segments);
 
-        // Материал сетки с фиолетовым свечением
         const material = new THREE.MeshBasicMaterial({
             color: 0x9333ea,
             wireframe: true,
             transparent: true,
-            opacity: 0.35
+            opacity: isMobile ? 0.3 : 0.35
         });
 
         const plane = new THREE.Mesh(geometry, material);
-        plane.rotation.x = -Math.PI / 2.5; // Наклон сетки для эффекта 3D
+        plane.rotation.x = -Math.PI / 2.5;
         scene.add(plane);
 
-        camera.position.z = 18;
-        camera.position.y = 6;
+        camera.position.z = isMobile ? 16 : 18;
+        camera.position.y = isMobile ? 5 : 6;
 
-        // Анимация волн сетки
         let clock = new THREE.Clock();
 
         function animate() {
@@ -212,8 +221,6 @@
             for (let i = 0; i < pos.count; i++) {
                 const u = pos.getX(i);
                 const v = pos.getY(i);
-
-                // Формула волны (синус + косинус)
                 const z = Math.sin(u * 0.18 + time) * 1.2 + Math.cos(v * 0.18 + time) * 1.2;
                 pos.setZ(i, z);
             }
@@ -224,8 +231,9 @@
 
         animate();
 
-        // Адаптация под размер экрана
+        // Адаптация при изменении размера экрана/ориентации
         window.addEventListener('resize', () => {
+            setViewportHeight();
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
