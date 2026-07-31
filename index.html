@@ -22,7 +22,6 @@
             color: #f1f5f9;
         }
 
-        /* Полноэкранный 3D Canvas */
         #bg {
             position: fixed;
             top: 0;
@@ -33,7 +32,6 @@
             pointer-events: none;
         }
 
-        /* Радиальное затемнение для глубокого контраста */
         .overlay {
             position: fixed;
             top: 0;
@@ -45,7 +43,6 @@
             pointer-events: none;
         }
 
-        /* Центрирование контента */
         .wrapper {
             position: relative;
             z-index: 3;
@@ -57,7 +54,6 @@
             padding: 16px;
         }
 
-        /* Главная карточка */
         .card {
             background: rgba(15, 7, 26, 0.75);
             backdrop-filter: blur(16px);
@@ -72,7 +68,6 @@
                         inset 0 0 20px rgba(168, 85, 247, 0.05);
         }
 
-        /* Иконка */
         .icon-box {
             width: 56px;
             height: 56px;
@@ -112,7 +107,6 @@
             margin-bottom: 24px;
         }
 
-        /* Кнопка */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -156,7 +150,7 @@
                 </svg>
             </div>
             <h1>Приветствую</h1>
-            <p>Добро пожаловать на мою страницу. Здесь находятся мои основные проекты, разработки и софт. Нажмите ниже, чтобы перейти в Telegram.</p>
+            <p>Нажмите ниже, чтобы попасть в телеграмм канал.</p>
             <a href="https://t.me/androidfreebomber" class="btn" target="_blank" rel="noopener">
                 Перейти в Telegram
                 <svg viewBox="0 0 24 24">
@@ -168,7 +162,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // Фикс высоты для мобильных браузеров (address bar bug)
         function setViewportHeight() {
             let vh = window.innerHeight * 0.01;
             document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -176,7 +169,6 @@
         window.addEventListener('resize', setViewportHeight);
         setViewportHeight();
 
-        // Инициализация Three.js
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ 
@@ -188,11 +180,10 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        // Автоматическое определение мобилки для оптимизации сетки
         const isMobile = window.innerWidth < 768;
         const width = 80;
         const height = 80;
-        const segments = isMobile ? 25 : 45; // Меньше полигонов на телефонах для плавности
+        const segments = isMobile ? 25 : 45;
 
         const geometry = new THREE.PlaneGeometry(width, height, segments, segments);
 
@@ -231,7 +222,6 @@
 
         animate();
 
-        // Адаптация при изменении размера экрана/ориентации
         window.addEventListener('resize', () => {
             setViewportHeight();
             camera.aspect = window.innerWidth / window.innerHeight;
